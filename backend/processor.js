@@ -101,10 +101,12 @@ function buildVideoFilter(d, srtPath, meta) {
     // Ya es 9:16: solo escalar, sin fondo difuminado (más rápido, más nítido)
     vf.push("scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1[vbase]");
   } else {
-    // Reencuadre inteligente: fondo difuminado + video centrado
+    // Reencuadre inteligente: fondo difuminado + video centrado.
+    // El blur se hace a mitad de resolución (540x960) y luego se escala:
+    // visualmente idéntico, 4x menos memoria y mucho más rápido (clave en free tier).
     vf.push(
       "split=2[bg][fg]",
-      "[bg]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,boxblur=20:2[bgf]",
+      "[bg]scale=540:960:force_original_aspect_ratio=increase,crop=540:960,boxblur=12:2,scale=1080:1920[bgf]",
       "[fg]scale=1080:1920:force_original_aspect_ratio=decrease[fgf]",
       "[bgf][fgf]overlay=(W-w)/2:(H-h)/2,setsar=1[vbase]"
     );
@@ -201,7 +203,8 @@ export async function processVideo({ input, jobId, directives, onProgress }) {
   ];
   if (au.filter) args.push("-af", au.filter);
   args.push(
-    "-c:v", "libx264", "-preset", "medium", "-crf", "20",
+    "-c:v", "libx264", "-preset", "veryfast", "-crf", "20",
+    "-threads", "2",
     "-pix_fmt", "yuv420p",
     "-c:a", "aac", "-b:a", "128k",
     "-shortest",
