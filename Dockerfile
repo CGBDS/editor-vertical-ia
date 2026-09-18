@@ -2,7 +2,7 @@
 FROM node:20-alpine AS web
 WORKDIR /web
 COPY frontend/package.json frontend/package-lock.json* ./
-RUN npm ci
+RUN npm install
 COPY frontend/ ./
 # NEXT_PUBLIC_API_URL vacío = el frontend llama a /api/* en el mismo origen
 RUN npm run build
@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app/backend
 COPY backend/package.json backend/package-lock.json* ./
-RUN npm ci --omit=dev
+RUN npm install --omit=dev
 COPY backend/ ./
 
 # Assets de marca
