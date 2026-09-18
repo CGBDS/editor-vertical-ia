@@ -1,0 +1,15 @@
+# Render Blueprint — despliegue con 1 clic (plan gratuito)
+services:
+  - type: web
+    name: editor-vertical-ia
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health
+    envVars:
+      - key: MAX_CONCURRENT_JOBS
+        value: 1
+      - key: RETENTION_HOURS
+        value: 6
+      - key: NODE_ENV
+        value: production

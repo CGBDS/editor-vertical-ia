@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+  min-height: 100%;
+  overscroll-behavior-y: none;
+}
+
+/* Botón grande de carga: área táctil amplia en móvil */
+.dropzone-active {
+  border-color: #A572FF !important;
+  background: rgba(165, 114, 255, 0.08);
+}
+
+@keyframes pulse-bar {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+.progress-anim {
+  animation: pulse-bar 1.2s ease-in-out infinite;
+}

@@ -1,0 +1,1 @@
+{"description":"Editor automático de video vertical 9:16 con prompts en lenguaje natural","name":"editor-vertical","private":true,"scripts":{"dev":"concurrently \"npm run dev --workspace=backend\" \"npm run dev --workspace=frontend\"","install:all":"npm install --workspace=backend && npm install --workspace=frontend"},"version":"1.0.0","workspaces":["frontend","backend"]}
